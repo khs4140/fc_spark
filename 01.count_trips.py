@@ -3,15 +3,16 @@ from pyspark import SparkConf, SparkContext
 import pandas as pd
 
 # Spark 설정
-conf = SparkConf().setMaster('local').setAppName('uber-date-trips')
+conf = SparkConf().setMaster('local[8]').setAppName('uber-date-trips') # [4] 4개 Thread 사용하여 연산
 sc = SparkContext(conf=conf)
 
 # 사용 데이터
-folder_name = '/Users/hangdori/_PML/fc_spark/data'
+# folder_name = '/Users/hangdori/_PML/fc_spark/data'
+folder_name = '/Users/lifelog/_PML/fc_spark/data'
 file_name = 'fhvhv_tripdata_2020-03.csv'
 
 # 데이터 파싱
-lines = sc.textFile(f"file:///{folder_name}/{file_name}")
+lines = sc.textFile(f"file:///{folder_name}/{file_name}") # RDD(Resilient Distributed Dataset)
 header = lines.first()
 filtered_lines = lines.filter(lambda x: x != header)
 
