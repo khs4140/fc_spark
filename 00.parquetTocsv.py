@@ -1,5 +1,12 @@
 import pandas as pd
-df = pd.read_parquet('./data/fhvhv_tripdata_2020-03.parquet')
-df.to_csv('./data/fhvhv_tripdata_2020-03.csv')
+import glob
+data_paths = glob.glob('./data/yellow*.parquet')
+
+print(data_paths)
+
+for path in data_paths:
+    df = pd.read_parquet(path)
+    file_name = path.split('/')[-1].split('.')[0]
+    df.to_csv(f'./data/{file_name}.csv')
 
 print('Converting Finish!')
